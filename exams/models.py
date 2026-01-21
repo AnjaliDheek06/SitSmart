@@ -16,3 +16,21 @@ class Course(models.Model):                                                     
 
 
 
+class Student(models.Model):
+    enrollment_id = models.CharField(max_length=20,unique=True)                 #Acts as Primary identification,unique ensures no duplicate enrollement number,enrollemenent id is marked as unique = True  because no 2 students can have same enrollement no 
+    name = models.CharField(max_length=100)                                                 
+    email = models.EmailField()
+    phone = models.CharField(max_length=50)
+    semester = models.IntegerField()
+
+
+
+class  Exam(models.Model):                                                                             #Here we are modeling examination event
+    name = models.CharField(max_length=200)                                               #why doing this?  seating depends on which exam is happening and exam belongs to courses
+    date = models.DateField()
+    start_time = models.TimeField()
+    duration = models.IntegerField()  #in minutes
+    course = models.ForeignKey( Course, on_delete = models.CASCADE)           #creates many to one relationship ,1 course ->many exams, each exam -> exactly one course
+                                                                                                                          #on_delete=models.CASCADE means: If a course is deleted all exams of that course are also deleted.It will presesrve data integrity
+                                                                                                                          #why? Because each student/exam/subject record must belong to one specific course, while one course can have many students/exams.
+
