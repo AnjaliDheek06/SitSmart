@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Students</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: radial-gradient(
+                ellipse at top,
+                #0F2A52 0%,
+                #0b1f3e 60%,
+                #01030a 100%
+            );
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+        }
+
+        /* ---------- HEADING ---------- */
+        h1 {
+            font-size: 40px;
+            margin-bottom: 40px;
+            letter-spacing: 1px;
+        }
+
+        /* ---------- CARD ---------- */
+        .upload-card {
+            width: 100%;
+            max-width: 520px;
+            background: linear-gradient(180deg, #ffffff, #f8fafc);
+            padding: 36px 38px;
+            border-radius: 18px;
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+        }
+
+        .upload-card label {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            color: #0F2A52;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        /* ---------- FILE INPUT ---------- */
+        .upload-card input[type="file"] {
+            padding: 14px;
+            border-radius: 12px;
+            border: 1.5px solid #c7d2fe;
+            background: #f8fafc;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .upload-card input[type="file"]::file-selector-button {
+            padding: 10px 18px;
+            border-radius: 10px;
+            border: none;
+            background: #2563eb;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            margin-right: 12px;
+        }
+
+        .upload-card input[type="file"]::file-selector-button:hover {
+            background: #1e40af;
+        }
+
+        .formats {
+            font-size: 14px;
+            color: #475569;
+        }
+
+        /* ---------- BUTTON ---------- */
+        button {
+            width: 100%;
+            margin-top: 28px;
+            padding: 16px;
+            border-radius: 14px;
+            border: none;
+            background: linear-gradient(135deg, #2563eb, #1e40af);
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 28px rgba(37, 99, 235, 0.4);
+        }
+
+        /* ---------- RESPONSIVE ---------- */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 32px;
+                text-align: center;
+            }
+
+            .upload-card {
+                padding: 28px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Upload Students</h1>
+
+    <form class="upload-card">
+        <label>
+            Choose Excel File
+            <input type="file" accept=".xls,.xlsx">
+            <span class="formats">Accepted formats: .xls, .xlsx</span>
+        </label>
+
+        <button type="submit">Upload File</button>
+    </form>
+
+</body>
+</html>

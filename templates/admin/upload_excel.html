@@ -1,0 +1,20 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+<h1>Upload Students from Excel</h1>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <p>
+        <input type="file" name="file" required>
+    </p>
+
+    <input type="submit" value="Upload" class="default">
+    <a href="../" class="button">Cancel</a>
+
+    <p style="margin-top:15px;">
+        Required columns:
+        <b>enrollment_id, name, semester, email</b>
+    </p>
+</form>
+{% endblock %}

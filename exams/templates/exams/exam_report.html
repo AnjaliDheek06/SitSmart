@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Exam Report: {{ exam.name }}</h1>
+
+<div class="card">
+    <h3>Overall Statistics</h3>
+    <p>Total Registered: {{ total_registered }}</p>
+    <p>Total Allocated: {{ total_allocated }}</p>
+    <p>Rooms Used: {{ total_rooms }}</p>
+</div>
+
+<h3>Room-wise Breakdown</h3>
+
+<table>
+    <tr>
+        <th>Room Number</th>
+        <th>Capacity</th>
+        <th>Students Allocated</th>
+        <th>Utilization %</th>
+    </tr>
+
+    {% for stat in room_stats %}
+    <tr>
+        <td>{{ stat.room__room_number }}</td>
+        <td>{{ stat.room__capacity }}</td>
+        <td>{{ stat.students_allocated }}</td>
+        <td>{{ stat.utilization|floatformat:1 }}%</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<button onclick="window.print()">Print Report</button>
+
+{% endblock %}

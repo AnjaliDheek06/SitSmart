@@ -1,0 +1,38 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div style="padding:40px">
+
+    {% if allocation %}
+        <h2>Seat Found</h2>
+
+        <p><b>Enrollment ID:</b> {{ enrollment_id }}</p>
+        <p><b>Room:</b> {{ allocation.room.room_number }}</p>
+        <p><b>Seat Number:</b> {{ allocation.seat_number }}</p>
+        <p><b>Exam:</b> {{ allocation.exam.name }}</p>
+
+        <!-- ACTION BUTTONS -->
+        <div style="margin-top:25px;">
+
+            <!-- DOWNLOAD -->
+            <a href="/exams/download-seating-slip/{{ allocation.id }}/"
+               style="padding:10px 16px; background:#2563eb; color:#fff; text-decoration:none; border-radius:6px; margin-right:10px;">
+                Download Seating Slip
+            </a>
+
+            <!-- PRINT (CLEAN PAGE) -->
+            <a href="/exams/print-seating-slip/{{ allocation.id }}/"
+               target="_blank"
+               style="padding:10px 16px; background:#16a34a; color:#fff; text-decoration:none; border-radius:6px;">
+                Print
+            </a>
+
+        </div>
+
+    {% else %}
+        <h2>No Seat Found</h2>
+        <p>No seat allocation exists for this enrollment ID.</p>
+    {% endif %}
+
+</div>
+{% endblock %}

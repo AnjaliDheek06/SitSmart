@@ -1,0 +1,203 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+<div class="exam-page">
+    <div class="exam-card">
+        <!-- Exam Header -->
+        <div class="exam-header">
+            <h1>{{ exam.name }}</h1>
+            <p><strong>Date:</strong> {{ exam.date }}</p>
+            <p><strong>Time:</strong> {{ exam.start_time }}</p>
+            <p><strong>Course:</strong> {{ exam.course.name }}</p>
+        </div>
+
+        <!-- Stats -->
+        <div class="exam-stats">
+            <div class="stat">
+                <h2>{{ total_students }}</h2>
+                <p>Total Students</p>
+            </div>
+            <div class="stat">
+                <h2>{{ allocated_students }}</h2>
+                <p>Allocated Students</p>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="exam-actions">
+            {% if allocated_students < total_students %}
+                <a href="{% url 'allocate_seats' exam.id %}" class="btn primary-btn">
+                    Allocate Seats
+                </a>
+            {% else %}
+                <p class="success-msg">All students allocated!</p>
+
+                <a href="{% url 'seating_chart' exam.id %}" class="btn">
+                    View Seating Chart
+                </a>
+
+                <a href="{% url 'assign_invigilator' exam.id %}" class="btn">
+                    Assign Invigilators
+                </a>
+
+                <a href="{% url 'exam_report' exam.id %}" class="btn">
+                    View Report
+                </a>
+            {% endif %}
+        </div>
+
+        <hr>
+
+        <!-- Invigilators -->
+        <div class="invigilators">
+            <h3>Assigned Invigilators:</h3>
+            {% if assignments %}
+                <ul>
+                    {% for assignment in assignments %}
+                        <li>
+                            {{ assignment.invigilator.username }} –
+                            Room {{ assignment.room.room_number }}
+                            ({{ assignment.get_duty_type_display }})
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No invigilators assigned yet.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+/* ---------- Page Background ---------- */
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(
+        to bottom,
+        #0a2a5f 0%,
+        #0a2a5f 20%,
+        #031227 50%,
+        #051531 80%,
+        #01060e 100%
+    );
+    min-height: 125vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 50px 20px;
+    color: #0f172a;
+}
+
+/* ---------- Exam Card ---------- */
+.exam-card {
+    background: #f1f5f9;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    padding: 40px;
+    max-width: 800px;
+    width: 100%;
+}
+
+/* ---------- Exam Header ---------- */
+.exam-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.exam-header h1 {
+    font-size: 32px;
+    color: #1e40af;
+    margin-bottom: 10px;
+}
+
+.exam-header p {
+    margin: 4px 0;
+    color: #334155;
+}
+
+/* ---------- Stats ---------- */
+.exam-stats {
+    display: flex;
+    justify-content: space-around;
+    background: #ffffff;
+    padding: 25px 0;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    margin-bottom: 30px;
+}
+
+.stat h2 {
+    color: #2563eb;
+    font-size: 28px;
+    margin-bottom: 5px;
+}
+
+.stat p {
+    color: #64748b;
+    font-weight: 600;
+}
+
+/* ---------- Actions ---------- */
+.exam-actions {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 25px;
+    margin: 5px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    background: #1e40af;
+    color: white;
+    transition: 0.3s ease;
+}
+
+.btn:hover {
+    background: #2563eb;
+    transform: translateY(-2px);
+}
+
+.primary-btn {
+    background: #2563eb;
+}
+
+.success-msg {
+    color: #16a34a;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+/* ---------- Invigilators ---------- */
+.invigilators h3 {
+    color: #1e40af;
+    margin-bottom: 10px;
+}
+
+.invigilators ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.invigilators li {
+    background: #e0e7ff;
+    margin-bottom: 10px;
+    padding: 12px 15px;
+    border-radius: 10px;
+    font-size: 15px;
+    color: #0f172a;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 600px) {
+    .exam-stats {
+        flex-direction: column;
+        gap: 20px;
+    }
+}
+</style>
+
+{% endblock %}

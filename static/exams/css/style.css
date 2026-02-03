@@ -1,0 +1,20 @@
+/* GLOBAL RESET – SAFE */
+body {
+    font-family: Arial;
+    margin: 0;                 /* ❌ remove white border */
+    background: transparent;   /* ❌ never paint background */
+}
+
+/* DO NOT paint dashboard background globally */
+.dashboard {
+    background: transparent;   /* ✅ allow gradient to show */
+    padding: 0;                /* padding handled in template */
+}
+
+/* Cards are allowed to be white */
+.card {
+    background: white;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 12px;
+}

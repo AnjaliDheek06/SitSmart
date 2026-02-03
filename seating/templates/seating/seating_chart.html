@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Seating Chart: {{ exam.name }}</h1>
+
+{% for room_number, allocations in rooms_data.items %}
+
+    <h2>Room {{ room_number }}</h2>
+
+    <table>
+        <tr>
+            <th>Seat</th>
+            <th>Enrollment ID</th>
+            <th>Name</th>
+        </tr>
+
+        {% for allocation in allocations %}
+            <tr>
+                <td>{{ allocation.seat_number }}</td>
+                <td>{{ allocation.student.enrollment_id }}</td>
+                <td>{{ allocation.student.name }}</td>
+            </tr>
+        {% endfor %}
+
+    </table>
+
+{% endfor %}
+
+{% endblock %}

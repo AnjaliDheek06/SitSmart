@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SIT SMART – Invigilator Dashboard</title>
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body{
+            min-height:100vh;
+            background: radial-gradient(
+            ellipse at center,
+            #0a2a5f 0%,
+            #031227 70%,
+            #000814 100%
+            );
+            background-attachment: fixed;
+        }
+        
+        .navbar {
+            padding: 25px 50px;
+        }
+
+        .logo {
+            color: white;
+            font-size: 32px;
+            font-weight: bold;
+        }
+        .logo span {
+            color: #1898c7;
+        }
+
+        
+        .dashboard{
+            max-width:1000px;
+            margin:40px auto;
+            padding:20px;
+        }
+
+        .dashboard h1{
+            font-size:32px;
+            margin-bottom:6px;
+            color:white;  
+        }
+
+        .dashboard h2{
+            font-size:16px;
+            color:#555;
+            margin-bottom:30px;
+        }
+
+    
+        .card {
+    background: linear-gradient(
+        135deg,
+        rgba(255,255,255,0.95),
+        rgba(245,247,250,0.95)
+    );
+    border-radius: 18px;
+    padding: 28px;
+    border: 1px solid rgba(44, 95, 127, 0.4);
+    box-shadow:
+        0 20px 40px rgba(0,0,0,0.18),
+        inset 0 1px 0 rgba(255,255,255,0.6);
+    backdrop-filter: blur(6px);
+}
+
+       .card h3 {
+    font-size: 21px;
+    margin-bottom: 26px;
+    padding-left: 14px;
+    color: #0f172a;
+    position: relative;
+}
+
+.card h3::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 5px;
+    background: linear-gradient(180deg, #2563eb, #38bdf8);
+    border-radius: 4px;
+}
+.duty-card {
+    background: linear-gradient(180deg, #ffffff, #f8fafc);
+    border-radius: 14px;
+    padding: 20px 22px;
+    margin-bottom: 18px;
+    position: relative;
+    overflow: hidden;
+
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 12px 28px rgba(0,0,0,0.1);
+    transition: all 0.35s ease;
+}
+
+
+.duty-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #2563eb, #38bdf8);
+}
+
+
+.duty-card:hover {
+    transform: translateY(-6px) scale(1.01);
+    box-shadow: 0 18px 38px rgba(0,0,0,0.18);
+}
+
+
+
+.duty-card h4 {
+    font-size: 18px;
+    margin-bottom: 12px;
+    color: #0f172a;
+    font-weight: 600;
+}
+
+.duty-card p {
+    font-size: 14px;
+    margin: 6px 0;
+    color: #475569;
+    display: flex;
+    justify-content: space-between;
+}
+
+.duty-card p strong {
+    color: #1e3a8a;
+}
+
+
+.duty-card:not(:last-child) {
+    margin-bottom: 22px;
+}
+
+
+        
+        @media(max-width:768px){
+            .dashboard{
+                margin:20px;
+                padding:10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+      
+    <header class="navbar">
+        <h1 class="logo">SIT <Span>SMART</Span></h1>
+    </header>
+
+{% block content %}
+
+<div class="dashboard">
+    <h1>Invigilator Dashboard</h1>
+    <h2>Welcome, {{ request.user.get_full_name|default:request.user.username }}</h2>
+
+    <div class="card">
+        <h3>Your Assigned Duties</h3>
+
+        {% if assignments %}
+            {% for assignment in assignments %}
+                <div class="card" style="margin-bottom: 10px;">
+                    <h4>{{ assignment.exam.name }}</h4>
+                    <p><strong>Room:</strong> {{ assignment.room.room_number }}</p>
+                    <p><strong>Date:</strong> {{ assignment.exam.date }}</p>
+                    <p><strong>Time:</strong> {{ assignment.exam.start_time }}</p>
+                    <p><strong>Duty:</strong> {{ assignment.get_duty_type_display }}</p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No duties assigned yet</p>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}
+
+
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Rooms</title>
+    <style>
+/* ---------- BODY & GENERAL ---------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background: radial-gradient(
+        ellipse at top,
+        #0F2A52 0%,
+        #0b1f3e 60%,
+        #01030a 100%
+    );
+    color: #fff;
+    min-height: 100vh;
+    padding: 40px;
+}
+
+/* ---------- HEADINGS ---------- */
+h1 {
+    text-align: center;
+    color: #eaf0f1;
+    font-size: 40px;
+    margin-bottom: 30px;
+    letter-spacing: 1px;
+}
+
+/* ---------- ADD BUTTON ---------- */
+a[href*="add-room"] {
+    display: inline-block;
+    margin-bottom: 20px;
+    padding: 15px 20px;
+    background-color: #2563eb;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+a[href*="add-room"]:hover {
+    background-color: #05341c;
+}
+
+/* ---------- TABLE STYLING ---------- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 15px 20px;
+    text-align: left;
+}
+
+th {
+    background-color: #2563eb;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 0.9em;
+}
+
+tr {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    transition: background 0.3s;
+}
+
+tr:hover {
+    background-color: rgba(0, 188, 212, 0.2);
+}
+
+/* ---------- ACTION LINKS ---------- */
+td a {
+    color: #e9f1f2;
+    text-decoration: none;
+    margin-right: 10px;
+    font-weight: 500;
+}
+
+td a:hover {
+    text-decoration: underline;
+}
+
+/* ---------- RESPONSIVE TABLE ---------- */
+@media (max-width: 768px) {
+    table, th, td {
+        display: block;
+    }
+    tr {
+        margin-bottom: 15px;
+    }
+    th {
+        display: none;
+    }
+    td {
+        padding-left: 50%;
+        position: relative;
+    }
+    td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 15px;
+        font-weight: bold;
+        text-transform: uppercase;
+        color: #00bcd4;
+    }
+}
+</style>
+</head>
+<body>
+
+    <h1>Manage Rooms</h1>
+
+    <!-- FUNCTIONAL BUTTON -->
+    <a href="{% url 'add_room' %}">Add New Room</a>
+
+    <table>
+        <tr>
+            <th>Room Number</th>
+            <th>Capacity</th>
+            <th>Building</th>
+            <th>Actions</th>
+        </tr>
+
+        {% for room in rooms %}
+        <tr>
+            <td>{{ room.room_number }}</td>
+            <td>{{ room.capacity }}</td>
+            <td>{{ room.building }}</td>
+            <td>
+                <a href="{% url 'edit_room' room.id %}">Edit</a> |
+                <a href="{% url 'delete_room' room.id %}">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</body>
+</html>

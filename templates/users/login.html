@@ -1,0 +1,81 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+   
+    .login-page {
+        min-height: 100vh;
+        background: radial-gradient(circle at top, #04234e, #000);
+        color: white;
+        display: flex;
+        flex-direction: column;
+    }
+
+    
+    .login-container {
+        max-width: 420px;
+        margin: 120px auto;
+        text-align: center;
+    }
+
+    .login-container h2 {
+        font-size: 28px;
+        margin-bottom: 10px;
+    }
+
+    .sub-text {
+        color: #b3b3b3;
+        margin-bottom: 25px;
+    }
+
+    .login-container input {
+        width: 100%;
+        padding: 14px;
+        margin-bottom: 18px;
+        background: #111;
+        border: 1px solid #333;
+        border-radius: 4px;
+        color: white;
+        font-size: 16px;
+    }
+
+    .login-container button {
+        width: 100%;
+        padding: 14px;
+        background: #1898c7;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        font-weight: bold;
+        color: white;
+        cursor: pointer;
+    }
+</style>
+
+<div class="login-page">
+
+    <div class="login-container">
+        <h2>Enter your info to sign in</h2>
+        <p class="sub-text">Or get started with a new account.</p>
+
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+</div>
+
+{% endblock %}

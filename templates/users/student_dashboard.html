@@ -1,0 +1,260 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+
+<div class="student-dashboard-page">
+
+<style>
+
+.layout{
+    display:flex;
+    min-height:calc(100vh - 55px); 
+    background: radial-gradient(
+        ellipse at center,
+        #0a2a5f 0%,
+        #041c3d 60%,
+        #000814 100%
+    );
+    color:#fff;
+}
+
+
+.sidebar{
+    width:260px;
+    background:rgba(0,0,0,0.45);
+    backdrop-filter: blur(10px);
+    padding:30px 20px;
+}
+
+
+.profile{
+    text-align:center;
+    margin-bottom:40px;
+}
+
+.avatar{
+    width:70px;
+    height:70px;
+    background:#2563eb;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:28px;
+    font-weight:bold;
+    margin:0 auto 12px;
+}
+
+.profile h4{
+    margin:6px 0 2px;
+}
+
+.profile p{
+    font-size:13px;
+    color:#cbd5e1;
+}
+
+
+.menu{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.menu a{
+    text-decoration:none;
+    color:#e5e7eb;
+    padding:12px 14px;
+    border-radius:10px;
+    transition:0.3s;
+}
+
+.menu a:hover,
+.menu a.active{
+    background:#05341c;
+    color:#fff;
+}
+
+
+.dashboard{
+    flex:1;
+    padding:60px 50px;
+    background: transparent !important;
+}
+
+.dashboard h1{
+    font-size:32px;
+}
+
+.dashboard h2{
+    font-size:15px;
+    color:#cbd5e1;
+    margin-bottom:30px;
+}
+
+
+.card{
+    background:#fff;
+    color:#111;
+    padding:30px;
+    border-radius:18px;
+    box-shadow:0 20px 40px rgba(0,0,0,0.35);
+}
+
+.card h3{
+    border-left:4px solid #2563eb;
+    padding-left:14px;
+    margin-bottom:20px;
+}
+
+.card form{
+    display:flex;
+    gap:15px;
+}
+
+.card input{
+    flex:1;
+    padding:14px;
+    border-radius:12px;
+    border:1px solid #cbd5e1;
+}
+
+.card input:focus{
+    border-color:#2563eb;
+    box-shadow:0 0 0 3px rgba(37,99,235,0.15);
+}
+
+.card button{
+    background:#2563eb;
+    color:#fff;
+    padding:14px 24px;
+    border:none;
+    border-radius:12px;
+    cursor:pointer;
+}
+
+.card button:hover{
+    background:#1e40af;
+}
+
+.card button:active{
+    background:#05341c;
+    transform:scale(0.97);
+}
+
+
+.panels{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
+    gap:20px;
+    margin-top:35px;
+}
+
+.panel{
+    background:#fff;
+    color:#111;
+    padding:22px;
+    border-radius:16px;
+    box-shadow:0 12px 25px rgba(0,0,0,0.25);
+}
+
+.content-section{
+    display:none;
+}
+
+.content-section.active{
+    display:block;
+}
+
+.instruction-panel{
+    background:#fff;
+    padding:25px;
+    border-radius:12px;
+}
+
+
+@media(max-width:900px){
+    .layout{
+        flex-direction:column;
+    }
+
+    .sidebar{
+        width:100%;
+    }
+
+    .dashboard{
+        padding:30px;
+    }
+}
+</style>
+
+<script>
+function showSection(sectionId){
+    document.querySelectorAll('.content-section')
+        .forEach(sec => sec.classList.remove('active'));
+
+    const target = document.getElementById(sectionId);
+    if(target) target.classList.add('active');
+}
+</script>
+
+<div class="layout">
+
+    
+    <aside class="sidebar">
+        <div class="profile">
+            <div class="avatar">
+                {{ request.user.username|first|upper }}
+            </div>
+            <h4>{{ request.user.username }}</h4>
+            <p>Student</p>
+        </div>
+
+        <nav class="menu">
+            <a href="#" class="active">Dashboard</a>
+            <a href="#" onclick="showSection('instructions')">Instructions</a>
+        </nav>
+    </aside>
+
+    
+    <main class="dashboard">
+        <h1>Student Dashboard</h1>
+        <h2>Welcome, {{ request.user.username }}</h2>
+
+        <div class="card">
+            <h3>Find Your Seat</h3>
+            <form method="get" action="{% url 'search_seat' %}">
+                <input type="text" name="enrollment_id" placeholder="Enter Enrollment ID" required>
+                <button type="submit">Search Seat</button>
+            </form>
+        </div>
+
+        <div class="panels">
+            <div class="panel">
+                <h4>Exam Info</h4>
+                <p>View exam date, time & room.</p>
+            </div>
+            <div class="panel">
+                <h4>Seat Status</h4>
+                <p>Check your allocated seat.</p>
+            </div>
+        </div>
+
+        <div class="content-section" id="instructions">
+            <div class="instruction-panel">
+                <h3>Exam Instructions</h3>
+                <ul>
+                    <li>Reach the exam centre at least 30 minutes before.</li>
+                    <li>Carry your college ID card and admit card.</li>
+                    <li>No electronic gadgets allowed.</li>
+                </ul>
+            </div>
+        </div>
+
+    </main>
+
+</div>
+
+</div>
+
+{% endblock %}

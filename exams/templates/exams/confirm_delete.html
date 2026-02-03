@@ -1,0 +1,116 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<div class="confirm-container">
+    <div class="confirm-card">
+
+        <h2>Confirm Delete</h2>
+
+        <p>Are you sure you want to delete ?</p>
+
+        <form method="post" class="confirm-actions">
+            {% csrf_token %}
+
+            <button type="submit" class="delete-btn">
+                Yes, Delete
+            </button>
+
+            <a href="{% url 'manage_rooms' %}" class="cancel-btn">
+                Cancel
+            </a>
+        </form>
+
+    </div>
+</div>
+
+<style>
+/* ===== CONFIRM DELETE — SPACING & CONSISTENCY ONLY ===== */
+
+.confirm-container {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    /* NO background here — layout.html stays in control */
+}
+
+.confirm-card {
+    background: #ffffff;              /* same white card */
+    padding: 32px 36px;
+    border-radius: 18px;
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+    border: 1px solid #e5e7eb;
+}
+
+/* Heading */
+.confirm-card h2 {
+    font-size: 26px;
+    color: #0a144e;
+    margin-bottom: 16px;
+}
+
+/* Text */
+.confirm-card p {
+    font-size: 16px;
+    color: #334155;
+    margin-bottom: 28px;
+}
+
+/* Actions */
+.confirm-actions {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Primary button */
+.delete-btn {
+    padding: 12px 22px;
+    border-radius: 10px;
+    border: none;
+    background: linear-gradient(135deg, #2563eb, #1e40af); /* SAME blue */
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.delete-btn:hover {
+    background: linear-gradient(135deg, #16a34a, #15803d); /* green hover */
+}
+
+/* Cancel */
+.cancel-btn {
+    padding: 12px 22px;
+    border-radius: 10px;
+    background: #e5e7eb;
+    color: #0f172a;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.cancel-btn:hover {
+    background: #cbd5e1;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .confirm-card {
+        padding: 26px 22px;
+    }
+
+    .confirm-actions {
+        flex-direction: column;
+    }
+}
+</style>
+
+{% endblock %}

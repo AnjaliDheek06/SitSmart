@@ -1,36 +1,114 @@
 from django.db import models
 
-# Create your models here.
-class Room(models.Model):                                                            #why?  To create DB table Room
-    room_number = models.CharField(max_length=10)                                # sitsmart needs room
-    capacity = models.IntegerField()                                                              #This model will allow atomatic allocation based on capacity
-    building = models.CharField(max_length=50)                                          #Prevents over crowding and logical of rooms  (building/floor)
-    floor = models.IntegerField()                                                                    #Without this model automation is impossible
+from users.models import CustomUser
 
 
+class Room(models.Model):
+    """
+    Represents an examination room.
+    Used for automatic seat allocation based on capacity and location.
+    """
+    room_number = models.CharField(max_length=10)
+    capacity = models.IntegerField()
+    building = models.CharField(max_length=50)
+    floor = models.IntegerField()
 
-class Course(models.Model):                                                          #why?  In seating exam system, course is required
-    code = models.CharField(max_length=10)                                             #Rules depend upon: same course student should not sit together , course-wise room distribution
-    name = models.CharField(max_length=100)                                           # will later be connected with student, exam ,seating algorithm                               
-    credits = models. IntegerField()                                                             
+    def __str__(self):
+        return f"Room {self.room_number} ({self.building}, Floor {self.floor})"
 
+
+class Course(models.Model):
+    """
+    Academic course.
+    Used for exam grouping and seating rules.
+    """
+    code = models.CharField(max_length=10)
+    name = models.CharField(max_length=100)
+    credits = models.IntegerField()
+
+    def __str__(self):
+        return f"{self.code} - {self.name}"
 
 
 class Student(models.Model):
-    enrollment_id = models.CharField(max_length=20,unique=True)                 #Acts as Primary identification,unique ensures no duplicate enrollement number,enrollemenent id is marked as unique = True  because no 2 students can have same enrollement no 
-    name = models.CharField(max_length=100)                                                 
+    """
+    Student details.
+    """
+    enrollment_id = models.CharField(max_length=20, unique=True)
+    name = models.CharField(max_length=100)
     email = models.EmailField()
     phone = models.CharField(max_length=50)
     semester = models.IntegerField()
 
+    def __str__(self):
+        return f"{self.enrollment_id} - {self.name}"
 
 
-class  Exam(models.Model):                                                                             #Here we are modeling examination event
-    name = models.CharField(max_length=200)                                               #why doing this?  seating depends on which exam is happening and exam belongs to courses
+class Exam(models.Model):
+    """
+    Examination event.
+    """
+    name = models.CharField(max_length=200)
     date = models.DateField()
     start_time = models.TimeField()
-    duration = models.IntegerField()  #in minutes
-    course = models.ForeignKey( Course, on_delete = models.CASCADE)           #creates many to one relationship ,1 course ->many exams, each exam -> exactly one course
-                                                                                                                          #on_delete=models.CASCADE means: If a course is deleted all exams of that course are also deleted.It will presesrve data integrity
-                                                                                                                          #why? Because each student/exam/subject record must belong to one specific course, while one course can have many students/exams.
+    duration = models.IntegerField(help_text="Duration in minutes")
+    course = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+class StudentExam(models.Model):
+    """
+    Mapping table: which student is registered for which exam.
+    """
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
+    registered_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('student', 'exam')
+        verbose_name = "Student Exam"
+        verbose_name_plural = "Student Exams"
+
+    def __str__(self):
+        return f"{self.student} → {self.exam}"
+    
+
+
+class InvigilatorAssignment(models.Model):
+
+    DUTY_CHOICES = [
+        ('chief', 'Chief Invigilator'),
+        ('assistant', 'Assistant Invigilator'),
+    ]
+
+    invigilator = models.ForeignKey(
+        CustomUser,
+        on_delete=models.CASCADE,
+        limit_choices_to={'role': 'invigilator'}
+    )
+    exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
+    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    duty_type = models.CharField(max_length=20, choices=DUTY_CHOICES)
+
+    class Meta:
+        unique_together = [
+            ('invigilator', 'exam'),   # ❌ no double rooms for same exam
+            ('exam', 'room', 'duty_type')  # ❌ no duplicate duty in room
+        ]
+        ordering = ('exam', 'room', 'duty_type')
+        verbose_name = "Invigilator Assignment"
+        verbose_name_plural = "Invigilator Assignments"
+
+    def __str__(self):
+        return (
+            f"{self.invigilator} | "
+            f"{self.exam} | "
+            f"{self.room} | "
+            f"{self.get_duty_type_display()}"
+        )
+    
+
+
 

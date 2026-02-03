@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Seat Allocation for {{ student.name }}</h1>
+<h3>Enrollment ID: {{ student.enrollment_id }}</h3>
+
+{% if allocations %}
+    {% for allocation in allocations %}
+        <div class="card" style="margin-bottom: 15px; padding: 15px;">
+            <h2>{{ allocation.exam.name }}</h2>
+
+            <p><strong>Room:</strong> {{ allocation.room.room_number }}</p>
+            <p><strong>Seat Number:</strong> {{ allocation.seat_number }}</p>
+            <p><strong>Date:</strong> {{ allocation.exam.date }}</p>
+            <p><strong>Time:</strong> {{ allocation.exam.start_time }}</p>
+            <p>
+                <strong>Building:</strong>
+                {{ allocation.room.building }},
+                Floor {{ allocation.room.floor }}
+            </p>
+
+            {% if allocation.id %}
+                <a href="{% url 'download_slip' allocation.id %}">
+                    Download Seating Slip
+                </a>
+            {% endif %}
+        </div>
+    {% endfor %}
+{% else %}
+    <p>No seat allocated yet for upcoming exams.</p>
+{% endif %}
+
+<a href="{% url 'student_dashboard' %}">Back to Dashboard</a>
+
+{% endblock %}

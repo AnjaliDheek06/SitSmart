@@ -1,0 +1,134 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIT SMART - Automated Examination Seating Arrangement System</title>
+
+    
+    <link rel="stylesheet" href="{% static 'exams/css/style.css' %}">
+
+    <style>
+        body{
+            background-color: #000;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+        
+        .navbar {
+            height: 64px;                 
+            background: #000000;          
+            display: flex;
+            align-items: center;
+            padding: 0 40px;
+            border: none;                 
+            outline: none;
+            box-shadow: none;             
+        }
+
+      
+        .nav-logo {
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .nav-logo .sit {
+            color: #ffffff;
+        }
+
+        .nav-logo .smart {
+            color: #38bdf8;
+        }
+
+        .logo{
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .logo span{
+            color: #1898c7;
+        }
+
+        .login-btn{
+            background-color: #1898c7;
+            border: none;
+            padding: 10px 20px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+    footer {
+        background: none;      
+        border: none;          
+        padding: 0;
+        margin: 0;
+    }
+
+
+        
+        .student-dashboard-page .login-btn {
+            display: none;
+        }
+
+        .student-dashboard-page .navbar {
+            padding: 8px 30px;
+            height: 55px;
+        }
+
+        .student-dashboard-page .logo {
+            font-size: 22px;
+        }
+
+        .student-dashboard-page .layout{
+            min-height: calc(100vh - 55px);
+        }
+
+       
+        @media print {
+            .navbar {
+                display: none;
+            }
+
+            .login-btn {
+                display: none;
+            }
+
+            body {
+                background-color: #fff;
+                color: #000;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    
+    <header class="navbar">
+        <h1 class="logo">SIT <span>SMART</span></h1>
+        
+    </header>
+
+    
+    {% block content %}
+    {% endblock %}
+
+    
+    <footer>
+        
+    </footer>
+
+</body>
+</html>

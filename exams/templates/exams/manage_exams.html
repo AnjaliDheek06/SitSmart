@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Exams</title>
+    <style>
+        /* ---------- RESET ---------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif
+        }
+
+        body {
+            background: radial-gradient(
+        ellipse at top,
+        #0F2A52 0%,
+        #0b1f3e 60%,
+        #01030a 100%
+    );
+            color: #fff;
+            min-height: 100vh;
+            padding: 40px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 40px;
+            color: #f4fcfd;
+            letter-spacing: 1px;
+        }
+
+        a.add-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 15px 20px;
+            background-color:#2563eb;;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background 0.3s;
+        }
+
+        a.add-btn:hover {
+            background-color: #05341c;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #2563eb;;
+            color: #fff;
+            text-transform: uppercase;
+            font-size: 0.9em;
+        }
+
+        tr {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            transition: background 0.3s;
+        }
+
+        tr:hover {
+            background-color: rgba(0, 188, 212, 0.2);
+        }
+
+        td a {
+            color: #fcfcfc;
+            text-decoration: none;
+            margin-right: 10px;
+            font-weight: 500;
+        }
+
+        td a:hover {
+            text-decoration: underline;
+        }
+
+        td:last-child a {
+            margin-right: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            table, th, td {
+                display: block;
+            }
+            tr {
+                margin-bottom: 15px;
+            }
+            th {
+                display: none;
+            }
+            td {
+                padding-left: 50%;
+                position: relative;
+            }
+            td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 15px;
+                font-weight: bold;
+                text-transform: uppercase;
+                color: #00bcd4;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<h2>Exams List</h2>
+
+<a href="{% url 'add_exam' %}" class="add-btn">Add Exam</a>
+
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Date</th>
+        <th>Start Time</th>
+        <th>Duration</th>
+        <th>Course</th>
+        <th>Actions</th>
+    </tr>
+
+    {% for exam in exams %}
+    <tr>
+        <td data-label="Name">{{ exam.name }}</td>
+        <td data-label="Date">{{ exam.date }}</td>
+        <td data-label="Start Time">{{ exam.start_time }}</td>
+        <td data-label="Duration">{{ exam.duration }}</td>
+        <td data-label="Course">{{ exam.course }}</td>
+        <td data-label="Actions">
+            <a href="{% url 'edit_exam' exam.id %}">Edit</a> |
+            <a href="{% url 'delete_exam' exam.id %}">Delete</a>
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="10" style="text-align:center; color:#070707;">No exams found</td>
+    </tr>
+    {% endfor %}
+</table>
+
+</body>
+</html>
