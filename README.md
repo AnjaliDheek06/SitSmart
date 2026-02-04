@@ -64,13 +64,13 @@ The system is designed with **role-based workflows** and follows real-world exam
 Follow the steps below to run the project on your local machine:
 
 ```bash
-# 4. Apply database migrations
+# Apply database migrations
 python manage.py migrate
 
-# 5. Create a superuser (admin access)
+# Create a superuser (admin access)
 python manage.py createsuperuser
 
-# 6. Start the Django development server
+# Start the Django development server
 python manage.py runserver
 If the server starts successfully, open your web browser and access the application using the URLs below:
 
