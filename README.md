@@ -59,25 +59,25 @@ The system is designed with **role-based workflows** and follows real-world exam
 > ⚠️ JavaScript is intentionally not used for core logic.  
 > All critical operations are handled securely on the server side.
 
-## ▶️ How to Run the Project Locally
+### ▶️ Run the Project Locally
 
-1. Clone or download the project
-2. Create and activate a virtual environment
-3. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-4.Run migrations:
-     python manage.py migrate
-5.Create superuser:
-     python manage.py createsuperuser
-6.Start the server:
-     python manage.py runserver
-7️.Access the Application
--Open your browser and navigate to:    
--http://127.0.0.1:8000/
+Follow the steps below to run the project on your local machine:
 
-8.For Django Admin Panel:
--http://127.0.0.1:8000/admin/
+```bash
+# 4. Apply database migrations
+python manage.py migrate
 
+# 5. Create a superuser (admin access)
+python manage.py createsuperuser
+
+# 6. Start the Django development server
+python manage.py runserver
+If the server starts successfully, open your web browser and access the application using the URLs below:
+
+Application URL:
+http://127.0.0.1:8000/
+
+Django Admin Panel:
+http://127.0.0.1:8000/admin/
 
 
